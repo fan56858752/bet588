@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_message_title"></string>
+    <string name="dialog_message_content"></string>
+    <string name="dialog_message_confirm">确认</string>
+    <string name="dialog_message_cancel">取消</string>
+    <string name="dialog_message_know">知道了</string>
+    <string name="right_now">刚刚</string>
+</resources>
