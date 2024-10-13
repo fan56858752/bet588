@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Bet588</string>
+    <string name="title_home">首页</string>
+    <string name="title_notice">公告/活动</string>
+    <string name="title_history">记录</string>
+    <string name="title_my">我的</string>
+
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+
+    <string name="please_login_first">请先登录</string>
+    <string name="profile">个人资料</string>
+    <string name="message">消息</string>
+    <string name="recharge_withdraw">充值提现</string>
+    <string name="transaction_details">交易明细</string>
+    <string name="betting_records">投注记录</string>
 </resources>

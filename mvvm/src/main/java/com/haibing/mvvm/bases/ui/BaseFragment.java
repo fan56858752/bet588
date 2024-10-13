@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +26,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * author 王小军
  * date 2024/03/08
  */
-public abstract class BaseFragment<T extends ViewBinding> extends Fragment
+public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment
         implements IViewModel, IDisposableManager {
     public T mViewBinding;
     private IDisposableManager mDisposableManager = new DisposableManagerImpl();
@@ -34,15 +36,20 @@ public abstract class BaseFragment<T extends ViewBinding> extends Fragment
         LogUtils.i(getClass() + "==>onCreate");
     }
 
-    protected abstract T onViewBinding(LayoutInflater inflater);
+    protected abstract int layoutId();
+    protected abstract void initView();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LogUtils.i(getClass() + "==>onCreateView");
-        mViewBinding = onViewBinding(inflater);
+        mViewBinding = DataBindingUtil.inflate(inflater,layoutId(),container,false);
+        mViewBinding.setLifecycleOwner(this);
+        initView();
         return mViewBinding.getRoot();
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

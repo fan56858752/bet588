@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModel;
 import androidx.viewbinding.ViewBinding;
 
@@ -18,7 +20,7 @@ import com.haibing.mvvm.utils.LogUtils;
  * author 王小军
  * date 2024/03/08
  */
-public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity
+public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity
         implements IActivityManager {
     public T mViewBinding;
 
@@ -31,13 +33,15 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         super.onCreate(savedInstanceState);
         add(this);
         LogUtils.i(getClass() + "==>onCreate");
-        mViewBinding = onViewBinding();
-        setContentView(mViewBinding.getRoot());
+        mViewBinding = DataBindingUtil.setContentView(this,layoutId());
+        mViewBinding.setLifecycleOwner(this);
+        initView();
         initViewModel();
         createObserver();
     }
 
-    protected abstract T onViewBinding();
+    protected abstract int layoutId();
+    protected abstract void initView();
     /**
      * 初始化ViewModel
      */

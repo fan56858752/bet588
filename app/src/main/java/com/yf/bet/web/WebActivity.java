@@ -3,9 +3,14 @@ package com.yf.bet.web;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -41,13 +46,23 @@ public class WebActivity extends AppCompatActivity {
                 .useDefaultIndicator()
                 .createAgentWeb()
                 .ready()
-                .go("https://588-bet.com/");
+                .go("https://bet-588.com/");
         WebSettings webSettings = mAgentWeb.getWebCreator().getWebView().getSettings();
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         webSettings.setJavaScriptEnabled(true);
+        mAgentWeb.getWebCreator().getWebView().setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                super.onReceivedSslError(view, handler, error);
+                Log.d("xxx","onReceivedSslError = " + error);
+                handler.proceed();
+            }
+        });
         mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new WebAppInterface(this));
     }
 
     public void openNewUrl(String url) {
+        Log.d("xxx","openNewUrl = " +url);
         // 在这里实现打开新网页的逻辑，例如使用Intent打开浏览器
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
